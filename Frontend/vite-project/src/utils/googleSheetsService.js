@@ -1,11 +1,18 @@
 export const submitToGoogleSheets = async (formData, formType) => {
     try {
-        const SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
+        let SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
+
+        // Robust cleanup: User might have pasted "VITE_GOOGLE_SCRIPT_URL=https://..." into the value field
+        if (SCRIPT_URL && SCRIPT_URL.startsWith('VITE_GOOGLE_SCRIPT_URL=')) {
+            SCRIPT_URL = SCRIPT_URL.replace('VITE_GOOGLE_SCRIPT_URL=', '');
+        }
 
         if (!SCRIPT_URL) {
             console.warn('Google Sheets Integration: VITE_GOOGLE_SCRIPT_URL is not set in .env');
             return { success: false, message: 'Configuration Error: Script URL missing.' };
         }
+
+        console.log("Submitting to:", SCRIPT_URL);
 
         // Create FormData (reliable for Apps Script no-cors)
         const formBody = new FormData();
