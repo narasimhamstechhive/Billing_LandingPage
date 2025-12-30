@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { submitToGoogleSheets } from '../utils/googleSheetsService';
 import { isValidEmail, isValidMobile, isValidName } from '../utils/validation';
 import { industrySolutions } from '../constants/data';
+import ThankYouPopup from './ThankYouPopup';
 
 const BookingForm = ({ isOpen, onClose, selectedPlan, initialIndustry }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isThankYouOpen, setIsThankYouOpen] = useState(false);
     const [formData, setFormData] = useState({
         fullName: '',
         mobile: '',
@@ -55,6 +57,11 @@ const BookingForm = ({ isOpen, onClose, selectedPlan, initialIndustry }) => {
         return Object.keys(newErrors).length === 0;
     };
 
+    const handleThankYouClose = () => {
+        setIsThankYouOpen(false);
+        onClose(); // Close the modal after popup
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -63,17 +70,16 @@ const BookingForm = ({ isOpen, onClose, selectedPlan, initialIndustry }) => {
         setIsSubmitting(true);
 
         // Submit to Google Sheets
-        const result = await submitToGoogleSheets(
+        await submitToGoogleSheets(
             { ...formData, selectedPlan: selectedPlan?.name },
             'Plan Booking'
         );
 
-        console.log('Submission result:', result);
-
         setIsSubmitting(false);
-        // We close even if "failed" in this context as it's a no-cors request usually
-        alert(`Thank you! We have received your booking request for ${selectedPlan.name}. We will contact you shortly.`);
-        onClose();
+
+        // Show thank you popup instead of alert
+        setIsThankYouOpen(true);
+
         setFormData({
             fullName: '',
             mobile: '',
@@ -82,6 +88,10 @@ const BookingForm = ({ isOpen, onClose, selectedPlan, initialIndustry }) => {
         });
         setErrors({});
     };
+
+    if (isThankYouOpen) {
+        return <ThankYouPopup isOpen={true} onClose={handleThankYouClose} />;
+    }
 
     if (!isOpen) return null;
 
