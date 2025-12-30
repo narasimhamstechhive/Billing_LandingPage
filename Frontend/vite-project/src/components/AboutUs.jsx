@@ -45,12 +45,18 @@ const AboutUs = () => {
         <section className="bg-white min-h-screen font-sans" id="about-us" ref={sectionRef}>
             {/* Premium Hero Section */}
             <div className="relative bg-secondary text-white py-32 overflow-hidden">
-                {/* Abstract Background Elements */}
-                <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary rounded-full mix-blend-multiply filter blur-[120px] opacity-10 animate-pulse"></div>
-                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-600 rounded-full mix-blend-multiply filter blur-[120px] opacity-10 animate-pulse" style={{ animationDelay: '1s' }}></div>
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="/Dashboard.jpg"
+                        alt="Background"
+                        className="w-full h-full object-cover opacity-50"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-secondary/90 via-secondary/60 to-secondary/90"></div>
+                </div>
 
                 {/* Glass Pattern Overlay */}
-                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 z-0"></div>
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
                     <span className="inline-block py-1 px-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm font-semibold tracking-wider uppercase mb-6 text-primary-light">
@@ -94,7 +100,7 @@ const AboutUs = () => {
                         <div className="absolute inset-0 bg-gradient-to-tr from-primary to-orange-500 rounded-2xl transform rotate-3 scale-105 opacity-20 blur-lg transition duration-500 group-hover:opacity-30"></div>
                         <div className="bg-white rounded-2xl h-[400px] shadow-2xl relative overflow-hidden border border-gray-100 group-hover:-translate-y-2 transition-transform duration-500">
                             <img
-                                src="/Dashboard.jpg"
+                                src="/analytics.png"
                                 alt="Ms Tech Hive Dashboard Interface"
                                 className="w-full h-full object-cover object-left-top transform scale-110 group-hover:scale-100 transition-transform duration-700"
                             />

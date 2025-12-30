@@ -2,7 +2,7 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { useState } from 'react';
 import BookingForm from './BookingForm';
 
-const Pricing = () => {
+const Pricing = ({ selectedIndustry }) => {
     const [sectionRef, isSectionVisible] = useScrollAnimation({ threshold: 0.1, once: true });
 
     // State for Booking Modal
@@ -164,17 +164,8 @@ const Pricing = () => {
                     ))}
                 </div>
 
-                {/* Money Back Guarantee */}
-                <div className="mt-16 bg-white rounded-xl p-8 shadow-soft flex flex-col md:flex-row items-center justify-between gap-6 border border-gray-100 max-w-4xl mx-auto">
-                    <div className="flex items-center gap-6">
-                        <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-3xl">🛡️</div>
-                        <div>
-                            <h4 className="text-xl font-bold text-heading">30-Day Money Back Guarantee</h4>
-                            <p className="text-text-secondary text-sm">Not satisfied? Get a full refund within 30 days. No questions asked.</p>
-                        </div>
-                    </div>
-                    <button className="mt-4 md:mt-0 w-full md:w-auto bg-white border-2 border-primary text-primary px-6 py-3 rounded-xl font-bold shadow-sm md:bg-transparent md:border-0 md:p-0 md:shadow-none hover:bg-red-50 md:hover:bg-transparent md:hover:underline transition-all">Read Policy</button>
-                </div>
+
+
             </div>
 
             {/* Booking Modal */}

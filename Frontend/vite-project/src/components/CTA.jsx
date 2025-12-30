@@ -1,30 +1,67 @@
 import { useState } from 'react';
 import { submitToGoogleSheets } from '../utils/googleSheetsService';
+import { isValidEmail, isValidMobile, isValidName } from '../utils/validation';
+import { industrySolutions } from '../constants/data';
+import ThankYouPopup from './ThankYouPopup';
 
 const CTA = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isThankYouOpen, setIsThankYouOpen] = useState(false);
     const [formData, setFormData] = useState({
         fullName: '',
         mobile: '',
         email: '',
-        businessName: '',
+        businessCategory: '',
         demoDate: '',
         demoTime: ''
     });
+    const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        let newValue = value;
+
+        // Input restrictions
+        if (name === 'fullName') {
+            newValue = value.replace(/[^a-zA-Z\s]/g, '');
+        } else if (name === 'mobile') {
+            newValue = value.replace(/\D/g, '');
+        }
+
+        setFormData(prev => ({ ...prev, [name]: newValue }));
+        // Clear error when user types
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: '' }));
+        }
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+        if (!isValidName(formData.fullName)) {
+            newErrors.fullName = 'Please enter a valid name (at least 2 letters)';
+        }
+        if (!isValidMobile(formData.mobile)) {
+            newErrors.mobile = 'Please enter a valid 10-digit mobile number';
+        }
+        if (!isValidEmail(formData.email)) {
+            newErrors.email = 'Please enter a valid email address';
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateForm()) return;
+
         setIsSubmitting(true);
 
         await submitToGoogleSheets(formData, 'Demo Request');
 
-        alert("Thanks! We'll call you within 10 minutes.");
-        setFormData({ fullName: '', mobile: '', email: '', businessName: '', demoDate: '', demoTime: '' });
+        setIsThankYouOpen(true);
+        setFormData({ fullName: '', mobile: '', email: '', businessCategory: '', demoDate: '', demoTime: '' });
+        setErrors({});
         setIsSubmitting(false);
     };
     return (
@@ -86,9 +123,11 @@ const CTA = () => {
                                     required
                                     value={formData.fullName}
                                     onChange={handleChange}
-                                    placeholder="John Doe"
-                                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary-DEFAULT focus:ring-2 focus:ring-primary-light outline-none transition-all bg-gray-50"
+                                    placeholder="Ravi Kumar"
+                                    className={`w-full px-4 py-3 rounded-lg border ${errors.fullName ? 'border-red-500' : 'border-gray-200'} focus:border-primary-DEFAULT focus:ring-2 focus:ring-primary-light outline-none transition-all bg-gray-50`}
+                                    minLength={2}
                                 />
+                                {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>}
                             </div>
                             <div>
                                 <label className="block text-sm font-bold text-text-secondary mb-1">Mobile Number</label>
@@ -99,8 +138,10 @@ const CTA = () => {
                                     value={formData.mobile}
                                     onChange={handleChange}
                                     placeholder="+91 98765 43210"
-                                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary-DEFAULT focus:ring-2 focus:ring-primary-light outline-none transition-all bg-gray-50"
+                                    className={`w-full px-4 py-3 rounded-lg border ${errors.mobile ? 'border-red-500' : 'border-gray-200'} focus:border-primary-DEFAULT focus:ring-2 focus:ring-primary-light outline-none transition-all bg-gray-50`}
+                                    maxLength={10}
                                 />
+                                {errors.mobile && <p className="text-red-500 text-xs mt-1">{errors.mobile}</p>}
                             </div>
                             <div>
                                 <label className="block text-sm font-bold text-text-secondary mb-1">Email Address</label>
@@ -110,21 +151,28 @@ const CTA = () => {
                                     required
                                     value={formData.email}
                                     onChange={handleChange}
-                                    placeholder="john@company.com"
-                                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary-DEFAULT focus:ring-2 focus:ring-primary-light outline-none transition-all bg-gray-50"
+                                    placeholder="ravikumar@gmail.com"
+                                    className={`w-full px-4 py-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-gray-200'} focus:border-primary-DEFAULT focus:ring-2 focus:ring-primary-light outline-none transition-all bg-gray-50`}
                                 />
+                                {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                             </div>
                             <div>
-                                <label className="block text-sm font-bold text-text-secondary mb-1">Business Name</label>
-                                <input
-                                    type="text"
-                                    name="businessName"
-                                    value={formData.businessName}
+                                <label className="block text-sm font-bold text-text-secondary mb-1">Business Category</label>
+                                <select
+                                    name="businessCategory"
+                                    value={formData.businessCategory}
                                     onChange={handleChange}
-                                    placeholder="Ex. My Retail Shop"
-                                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary-DEFAULT focus:ring-2 focus:ring-primary-light outline-none transition-all bg-gray-50"
-                                />
+                                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-primary-DEFAULT focus:ring-2 focus:ring-primary-light outline-none transition-all bg-gray-50 text-gray-700"
+                                >
+                                    <option value="">Select your industry...</option>
+                                    {industrySolutions.map((ind) => (
+                                        <option key={ind.name} value={ind.name}>{ind.name}</option>
+                                    ))}
+                                    <option value="Other">Other</option>
+                                </select>
                             </div>
+
+
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
@@ -184,8 +232,10 @@ const CTA = () => {
 
                 </div>
             </div>
+            <ThankYouPopup isOpen={isThankYouOpen} onClose={() => setIsThankYouOpen(false)} />
         </section>
     );
 };
 
 export default CTA;
+

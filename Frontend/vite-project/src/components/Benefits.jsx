@@ -36,9 +36,15 @@ const Benefits = () => {
                             ))}
                         </div>
 
-                        <a href="#demo" className="btn btn-primary text-lg px-10 py-5">
-                            Start Your Free Trial
-                        </a>
+                        <button className="bg-gradient-to-r from-primary to-red-600 text-white px-8 py-4 rounded-xl font-bold text-lg 
+                               shadow-lg shadow-red-500/30 hover:shadow-red-500/40 hover:-translate-y-1 transition-all duration-300
+                               flex items-center justify-center gap-2"
+                            onClick={() => document.getElementById('demo').scrollIntoView({ behavior: 'smooth' })}>
+                            <span>Start Your Free Trial</span>
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                        </button>
                     </div>
 
                     {/* Visual Cards */}
@@ -62,7 +68,7 @@ const Benefits = () => {
                             <div className="text-sm font-semibold text-success">↑ 12% vs yesterday</div>
                         </div>
 
-                        <div className="bg-white p-6 rounded-2xl absolute bottom-0 left-[20%] min-w-[280px] shadow-card
+                        <div className="bg-white p-6 rounded-2xl absolute bottom-0 left-1/2 -translate-x-1/2 min-w-[280px] shadow-card
                            border border-slate-100 animate-float [animation-delay:4s] hover:scale-105 transition-transform">
                             <div className="flex justify-between items-center mb-4">
                                 <span className="text-sm text-slate-500 font-medium">Active Customers</span>

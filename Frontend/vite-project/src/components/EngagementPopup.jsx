@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { submitToGoogleSheets } from '../utils/googleSheetsService';
+import { isValidMobile } from '../utils/validation';
 
 const EngagementPopup = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [mobile, setMobile] = useState('');
+    const [error, setError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [showSolution, setShowSolution] = useState(true);
@@ -12,7 +14,7 @@ const EngagementPopup = () => {
     useEffect(() => {
         // Initial timer
         let timer;
-        const delay = window.innerWidth < 768 ? 20000 : 10000; // 20s for mobile, 10s for desktop
+        const delay = 50000; // 50s for all devices
 
         if (!hasSubmitted) {
             timer = setTimeout(() => {
@@ -57,7 +59,7 @@ const EngagementPopup = () => {
     const handleClose = () => {
         setIsVisible(false);
         // Re-open after delay if not submitted
-        const delay = window.innerWidth < 768 ? 20000 : 10000;
+        const delay = 50000;
 
         if (!hasSubmitted) {
             setTimeout(() => {
@@ -66,9 +68,19 @@ const EngagementPopup = () => {
         }
     };
 
+    const handleMobileChange = (e) => {
+        const value = e.target.value.replace(/\D/g, '');
+        setMobile(value);
+        if (error) setError('');
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!mobile) return;
+
+        if (!isValidMobile(mobile)) {
+            setError('Please enter a valid 10-digit number');
+            return;
+        }
 
         setIsSubmitting(true);
         // Use existing service with specific form type
@@ -119,10 +131,12 @@ const EngagementPopup = () => {
                                 type="tel"
                                 required
                                 value={mobile}
-                                onChange={(e) => setMobile(e.target.value)}
+                                onChange={handleMobileChange}
                                 placeholder="Enter your number"
-                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all font-semibold text-lg"
+                                className={`w-full px-4 py-3 rounded-lg border ${error ? 'border-red-500' : 'border-gray-300'} focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all font-semibold text-lg`}
+                                maxLength={10}
                             />
+                            {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
                         </div>
 
                         <button
@@ -177,3 +191,4 @@ const EngagementPopup = () => {
 };
 
 export default EngagementPopup;
+

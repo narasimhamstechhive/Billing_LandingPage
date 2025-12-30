@@ -5,30 +5,30 @@ const Hero = () => {
 
     return (
         <section
-            className="pt-32 pb-20 bg-gradient-hero overflow-hidden"
+            className="min-h-screen flex items-center pt-20 pb-0 bg-gradient-hero overflow-hidden"
             id="home"
             ref={heroRef}
         >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-full">
 
                     {/* Text Content */}
                     <div className={`text-left transition-all duration-800 ${isHeroVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
                         }`}>
                         <div className="inline-flex items-center gap-2 bg-red-50 text-red-700 px-4 py-1.5 rounded-full text-sm font-bold mb-6 border border-red-100/50 shadow-sm animate-fade-in-up">
                             <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
-                            #1 Billing Software in India
+                            #1 AI Billing Software in India
                         </div>
 
-                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-heading leading-[1.15] mb-6">
-                            Simple. Secure. <br />
+                        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-heading leading-[1.1] mb-6">
+                            Smart&Simple. <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-500">
-                                Business Accounting
+                                AI Billing & Accounting
                             </span>
                         </h1>
 
                         <p className="text-lg text-text-secondary mb-8 leading-relaxed max-w-lg font-medium">
-                            Manage your business professionally with the easiest GST billing, inventory & accounting software. Trusted by 1 Crore+ businesses.
+                            Manage your business professionally with the easiest AI-powered GST billing, inventory & accounting software.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 mb-8">
@@ -63,7 +63,7 @@ const Hero = () => {
                                 <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600">
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                                 </div>
-                                Made in India
+                                AI Powered
                             </div>
                             <div className="flex items-center gap-2">
                                 <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-green-600">
@@ -71,33 +71,32 @@ const Hero = () => {
                                 </div>
                                 Easy Inventory
                             </div>
-
                         </div>
                     </div>
 
                     {/* Hero Image */}
-                    <div className={`relative transition-all duration-800 delay-200 ${isHeroVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+                    <div className={`relative h-full flex items-end transition-all duration-800 delay-200 ${isHeroVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
                         }`}>
-                        <div className="relative z-10 w-full transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                        <div className="relative z-10 w-full h-[90%] transform hover:scale-[1.02] transition-transform duration-500">
                             <img
-                                src="/Dashboard.jpg"
-                                alt="BillMaster Dashboard"
-                                className="w-full h-auto rounded-xl shadow-2xl border border-gray-200"
+                                src="/cloths.jpeg"
+                                alt="AI Billing Dashboard"
+                                className="w-full h-full object-cover rounded-t-3xl shadow-2xl border-x border-t border-gray-200"
                             />
 
                             {/* Floating Badge 1 */}
-                            <div className="absolute -left-4 md:-left-6 top-1/2 bg-white p-3 md:p-4 rounded-xl shadow-float border-l-4 border-accent animate-float hidden sm:block">
+                            <div className="absolute -left-4 md:-left-6 top-1/4 bg-white p-3 md:p-4 rounded-xl shadow-float border-l-4 border-accent animate-float hidden sm:block">
                                 <div className="text-xs text-text-secondary font-bold uppercase mb-1">Total Sale</div>
-                                <div className="text-xl md:text-2xl font-extrabold text-heading">₹ 24,50,000</div>
+                                <div className="text-xl md:text-2xl font-extrabold text-heading">₹ 4,50,000</div>
                             </div>
 
                             {/* Floating Badge 2 */}
-                            <div className="absolute -right-2 md:-right-4 bottom-8 bg-primary text-white p-3 rounded-xl shadow-lg animate-float [animation-delay:2s] hidden sm:block">
+                            <div className="absolute -right-2 md:-right-4 bottom-1/4 bg-primary text-white p-3 rounded-xl shadow-lg animate-float [animation-delay:2s] hidden sm:block">
                                 <div className="flex items-center gap-3">
-                                    <div className="bg-white/20 p-2 rounded-lg text-xl">⭐</div>
+                                    <div className="bg-white/20 p-2 rounded-lg text-xl">🤖</div>
                                     <div>
-                                        <div className="font-bold text-lg">4.8/5</div>
-                                        <div className="text-xs opacity-90">User Rating</div>
+                                        <div className="font-bold text-lg">AI Active</div>
+                                        <div className="text-xs opacity-90">Auto-Detecting Items</div>
                                     </div>
                                 </div>
                             </div>

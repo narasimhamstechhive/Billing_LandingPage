@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import BusinessTypes from './components/BusinessTypes';
 import Features from './components/Features';
+
 import Pricing from './components/Pricing';
 import AboutUs from './components/AboutUs';
 import Support from './components/Support';
@@ -12,14 +13,17 @@ import Footer from './components/Footer';
 
 import EngagementPopup from './components/EngagementPopup';
 
+import AIBilling from './components/AIBilling';
+
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
+  const [selectedIndustry, setSelectedIndustry] = useState('');
 
   const renderContent = () => {
     if (currentPage === 'pricing') {
       return (
         <div className="animate-fade-in-up pt-20">
-          <Pricing />
+          <Pricing selectedIndustry={selectedIndustry} />
         </div>
       );
     }
@@ -43,8 +47,10 @@ function App() {
     return (
       <>
         <Hero />
+        <AIBilling />
         <BusinessTypes />
         <Features />
+
         {/* Pricing removed from here, accessible via dedicated page */}
         <Benefits />
         <CTA />
@@ -54,7 +60,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar onNavigate={setCurrentPage} />
+      <Navbar onNavigate={setCurrentPage} onSelectIndustry={setSelectedIndustry} />
       {renderContent()}
       <Footer onNavigate={setCurrentPage} />
       <EngagementPopup />
